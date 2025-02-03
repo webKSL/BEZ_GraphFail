@@ -47,7 +47,7 @@ def plotbarATE(filtered_data, data, output_path, colunas_selecionadas):
     os.makedirs(output_path, exist_ok=True)
     plt.savefig(os.path.join(output_path, 'falhas_por_channel.png'))
     plt.show()
-    plt.close()
+
 
 def plotbarBurnIn(data):
 
@@ -67,6 +67,7 @@ def plotbarBurnIn(data):
     axes[0].set_xlabel("Número do Carrinho")
     axes[0].set_ylabel("Ocorrências de FAIL")
     axes[0].tick_params(axis='x', rotation=45)
+    axes[0].legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Gráfico 2: Posição do Carrinho x Contagem de FAIL
     axes[1].bar(fail_by_position.index.astype(str), fail_by_position.values,
@@ -75,11 +76,12 @@ def plotbarBurnIn(data):
     axes[1].set_xlabel("Posição do Carrinho")
     axes[1].set_ylabel("Ocorrências de FAIL")
     axes[1].tick_params(axis='x', rotation=45)
+    axes[1].legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Ajustar layout para evitar sobreposição
     plt.tight_layout()
     plt.show()
-    plt.close()
+
 
     # Criar o terceiro gráfico em uma nova janela
     fig, ax = plt.subplots()
@@ -88,11 +90,12 @@ def plotbarBurnIn(data):
     ax.set_xlabel("Número do Carrinho")
     ax.set_ylabel("Ocorrências de FAIL")
     ax.tick_params(axis='x', rotation=45)
+    ax.legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Ajustar layout para o gráfico 3
     plt.tight_layout()
     plt.show()
-    plt.close()
+
 
 def plotbarHipot(data):
     # Exemplo de falhas por carrinho e posição
@@ -111,6 +114,7 @@ def plotbarHipot(data):
     axes[0].set_xlabel("Número do Carrinho")
     axes[0].set_ylabel("Ocorrências de FAIL")
     axes[0].tick_params(axis='x', rotation=45)
+    axes[0].legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Gráfico 2: Posição do Carrinho x Contagem de FAIL
     axes[1].bar(fail_by_position.index.astype(str), fail_by_position.values,
@@ -119,11 +123,12 @@ def plotbarHipot(data):
     axes[1].set_xlabel("Posição do Carrinho")
     axes[1].set_ylabel("Ocorrências de FAIL")
     axes[1].tick_params(axis='x', rotation=45)
+    axes[1].legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Ajustar layout para evitar sobreposição
     plt.tight_layout()
     plt.show()
-    plt.close()
+
 
     # Criar o terceiro gráfico em uma nova janela
     fig, ax = plt.subplots()
@@ -132,8 +137,8 @@ def plotbarHipot(data):
     ax.set_xlabel("Número do Carrinho")
     ax.set_ylabel("Ocorrências de FAIL")
     ax.tick_params(axis='x', rotation=45)
+    ax.legend(loc='upper left')  # Ajuste a posição da legenda
 
     # Ajustar layout para o gráfico 3
     plt.tight_layout()
     plt.show()
-    plt.close()
