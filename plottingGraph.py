@@ -93,3 +93,47 @@ def plotbarBurnIn(data):
     plt.tight_layout()
     plt.show()
     plt.close()
+
+def plotbarHipot(data):
+    # Exemplo de falhas por carrinho e posição
+    fail_by_cart = data[data["Resultados"] == "FAIL"]["Número do Carrinho"].value_counts().sort_index()
+    fail_by_position = data[data["Resultados"] == "FAIL"]["Posição do Carrinho"].value_counts().sort_index()
+    # Filtrando os dados de falhas, com relação a "Número do Carrinho" e "Posição do Carrinho"
+    fail_by_cart_position = data[data["Resultados"] == "FAIL"].groupby(
+        ["Número do Carrinho", "Posição do Carrinho"]).size().unstack(fill_value=0)
+
+    # Criar os primeiros dois gráficos
+    fig, axes = plt.subplots(1, 2)
+
+    # Gráfico 1: Número do Carrinho x Contagem de FAIL
+    axes[0].bar(fail_by_cart.index.astype(str), fail_by_cart.values, color="red")  # Convertendo o índice para string
+    axes[0].set_title("Falhas por Número do Carrinho")
+    axes[0].set_xlabel("Número do Carrinho")
+    axes[0].set_ylabel("Ocorrências de FAIL")
+    axes[0].tick_params(axis='x', rotation=45)
+
+    # Gráfico 2: Posição do Carrinho x Contagem de FAIL
+    axes[1].bar(fail_by_position.index.astype(str), fail_by_position.values,
+                color="blue")  # Convertendo o índice para string
+    axes[1].set_title("Falhas por Posição do Carrinho")
+    axes[1].set_xlabel("Posição do Carrinho")
+    axes[1].set_ylabel("Ocorrências de FAIL")
+    axes[1].tick_params(axis='x', rotation=45)
+
+    # Ajustar layout para evitar sobreposição
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+
+    # Criar o terceiro gráfico em uma nova janela
+    fig, ax = plt.subplots()
+    fail_by_cart_position.plot(kind='bar', stacked=True, ax=ax, cmap='tab20')  # Gráfico empilhado
+    ax.set_title("Falhas por Número do Carrinho e Posição")
+    ax.set_xlabel("Número do Carrinho")
+    ax.set_ylabel("Ocorrências de FAIL")
+    ax.tick_params(axis='x', rotation=45)
+
+    # Ajustar layout para o gráfico 3
+    plt.tight_layout()
+    plt.show()
+    plt.close()

@@ -27,7 +27,7 @@ def show_home():
     tk.Label(frame, text="Selecione o módulo:", font=("Arial", 14)).grid(row=0, column=0, columnspan=3, pady=10)
 
     tk.Button(frame, text="ATE", command=lambda: show_ate_interface(root), width=15).grid(row=1, column=0, padx=10, pady=10)
-    tk.Button(frame, text="HiPot", command=lambda: show_dummy_interface(root), width=15).grid(row=1, column=1, padx=10, pady=10)
+    tk.Button(frame, text="HiPot", command=lambda: show_hipot_interface(root), width=15).grid(row=1, column=1, padx=10, pady=10)
     tk.Button(frame, text="Burn-in", command=lambda: show_burnin_interface(root), width=15).grid(row=1, column=2, padx=10, pady=10)
 
     # Centralizar janela
@@ -140,28 +140,42 @@ def show_burnin_interface(parent):
 
     burnin_window.mainloop()
 
-def show_dummy_interface(parent):
+def show_hipot_interface(parent):
     """Exibe a interface do modelo Dummy (HiPot ou Burn-in) e fecha a janela principal."""
     parent.destroy()  # Fecha a janela inicial
 
-    ate_window = tk.Tk()
-    ate_window.title("HiPot - Em desenvolvimento")
+    hipot_window = tk.Tk()
+    hipot_window.title("Burn-In - Processador de CSV e Gerador de Gráficos")
 
     # Variáveis de Configuração
     config.csv_file_path = tk.StringVar()
     config.output_folder = tk.StringVar()
 
     # Criar Frame Principal
-    frame = tk.Frame(ate_window, padx=10, pady=10)
+    frame = tk.Frame(hipot_window, padx=10, pady=10)
     frame.pack()
+
+    # Seção de Arquivo
+    tk.Label(frame, text="Selecione o arquivo CSV:").grid(row=0, column=0, sticky="w")
+    tk.Entry(frame, textvariable=config.csv_file_path, width=40).grid(row=0, column=1, padx=5, pady=5)
+    tk.Button(frame, text="Browse", command=lambda: config.csv_file_path.set(filedialog.askopenfilename())).grid(row=0,
+                                                                                                                 column=2)
+
+    tk.Label(frame, text="Pasta de saída:").grid(row=1, column=0, sticky="w")
+    tk.Entry(frame, textvariable=config.output_folder, width=40).grid(row=1, column=1, padx=5, pady=5)
+    tk.Button(frame, text="Browse", command=lambda: config.output_folder.set(filedialog.askdirectory())).grid(row=1,
+                                                                                                              column=2)
+    # Botão de Processar
+    tk.Button(frame, text="Processar CSV", command=process_Hipot).grid(row=4, column=0, columnspan=3, pady=10)
+
     # Botão Voltar
-    tk.Button(frame, text="Voltar", command=lambda: return_to_home(ate_window)).grid(row=5, column=0, columnspan=3,
+    tk.Button(frame, text="Voltar", command=lambda: return_to_home(hipot_window)).grid(row=5, column=0, columnspan=3,
                                                                                      pady=10)
 
     # Centralizar Janela
-    centralize_window(ate_window)
+    centralize_window(hipot_window)
 
-    ate_window.mainloop()
+    hipot_window.mainloop()
 
 def return_to_home(current_window):
     """Fecha a janela atual e volta para a janela inicial."""
