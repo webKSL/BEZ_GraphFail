@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-from processData import process_ATE
+from processData import *
 import config
 
 def centralize_window(window):
@@ -27,8 +27,8 @@ def show_home():
     tk.Label(frame, text="Selecione o módulo:", font=("Arial", 14)).grid(row=0, column=0, columnspan=3, pady=10)
 
     tk.Button(frame, text="ATE", command=lambda: show_ate_interface(root), width=15).grid(row=1, column=0, padx=10, pady=10)
-    tk.Button(frame, text="HiPot", command=lambda: show_dummy_interface(root, "HiPot"), width=15).grid(row=1, column=1, padx=10, pady=10)
-    tk.Button(frame, text="Burn-in", command=lambda: show_dummy_interface(root, "Burn-in"), width=15).grid(row=1, column=2, padx=10, pady=10)
+    tk.Button(frame, text="HiPot", command=lambda: show_dummy_interface(root), width=15).grid(row=1, column=1, padx=10, pady=10)
+    tk.Button(frame, text="Burn-in", command=lambda: show_burnin_interface(root), width=15).grid(row=1, column=2, padx=10, pady=10)
 
     # Centralizar janela
     centralize_window(root)
@@ -103,27 +103,19 @@ def show_ate_interface(parent):
     ate_window.mainloop()
 
 
-def show_dummy_interface(parent, module_name):
-    """Exibe a interface do modelo ATE e fecha a janela principal."""
+def show_burnin_interface(parent):
+    """Exibe a interface do modelo Dummy (HiPot ou Burn-in) e fecha a janela principal."""
     parent.destroy()  # Fecha a janela inicial
 
-    ate_window = tk.Tk()
-    ate_window.title("ATE - Processador de CSV e Gerador de Gráficos")
+    burnin_window = tk.Tk()
+    burnin_window.title("Burn-In - Processador de CSV e Gerador de Gráficos")
 
     # Variáveis de Configuração
     config.csv_file_path = tk.StringVar()
     config.output_folder = tk.StringVar()
-    config.apply_filter = tk.BooleanVar(value=False)
-    config.start_hour = tk.StringVar(value="00")
-    config.start_minute = tk.StringVar(value="00")
-    config.start_second = tk.StringVar(value="00")
-    config.end_hour = tk.StringVar(value="23")
-    config.end_minute = tk.StringVar(value="00")
-    config.end_second = tk.StringVar(value="00")
-    config.selected_model = tk.StringVar(value=0)
 
     # Criar Frame Principal
-    frame = tk.Frame(ate_window, padx=10, pady=10)
+    frame = tk.Frame(burnin_window, padx=10, pady=10)
     frame.pack()
 
     # Seção de Arquivo
@@ -136,15 +128,40 @@ def show_dummy_interface(parent, module_name):
     tk.Entry(frame, textvariable=config.output_folder, width=40).grid(row=1, column=1, padx=5, pady=5)
     tk.Button(frame, text="Browse", command=lambda: config.output_folder.set(filedialog.askdirectory())).grid(row=1,
                                                                                                               column=2)
-
     # Botão de Processar
-    tk.Button(frame, text="Processar CSV", command=process_ATE).grid(row=4, column=0, columnspan=3, pady=10)
+    tk.Button(frame, text="Processar CSV", command=process_BurnIn).grid(row=4, column=0, columnspan=3, pady=10)
 
+    # Botão Voltar
+    tk.Button(frame, text="Voltar", command=lambda: return_to_home(burnin_window)).grid(row=5, column=0, columnspan=3,
+                                                                                     pady=10)
+
+    # Centralizar Janela
+    centralize_window(burnin_window)
+
+    burnin_window.mainloop()
+
+def show_dummy_interface(parent):
+    """Exibe a interface do modelo Dummy (HiPot ou Burn-in) e fecha a janela principal."""
+    parent.destroy()  # Fecha a janela inicial
+
+    ate_window = tk.Tk()
+    ate_window.title("HiPot - Em desenvolvimento")
+
+    # Variáveis de Configuração
+    config.csv_file_path = tk.StringVar()
+    config.output_folder = tk.StringVar()
+
+    # Criar Frame Principal
+    frame = tk.Frame(ate_window, padx=10, pady=10)
+    frame.pack()
     # Botão Voltar
     tk.Button(frame, text="Voltar", command=lambda: return_to_home(ate_window)).grid(row=5, column=0, columnspan=3,
                                                                                      pady=10)
+
     # Centralizar Janela
     centralize_window(ate_window)
+
+    ate_window.mainloop()
 
 def return_to_home(current_window):
     """Fecha a janela atual e volta para a janela inicial."""

@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import pandas as pd
 from datetime import time
-from plottingGraph import plotbarATE
+from plottingGraph import plotbarATE, plotbarBurnIn
 import config
 
 def process_ATE():
@@ -93,8 +93,26 @@ def process_ATE():
     except Exception as e:
         messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
 
-
-
-
+def process_BurnIn():
+    try:
+        # Verificar se o arquivo foi selecionado
+        if not config.csv_file_path.get():
+            messagebox.showerror("Erro", "Por favor, selecione um arquivo CSV.")
+            return
+        # Verificar se o caminho de destino foi fornecido
+        if not config.output_folder.get():
+            messagebox.showerror("Erro", "Por favor, insira um caminho de pasta destino.")
+            return
+        data = pd.read_csv(config.csv_file_path.get())
+        data.rename(columns={
+            'ID': 'Número do Carrinho',
+            'Slot': 'Posição do Carrinho'
+        }, inplace=True)
+        colunas_selecionadas = ['Número do Carrinho','Posição do Carrinho', 'Result']
+        # Processar os dados e gerar gráficos
+        plotbarBurnIn(data)
+        messagebox.showinfo("Sucesso", "Gráficos gerados e salvos na pasta destino.")
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}")
 
 
