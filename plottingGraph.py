@@ -44,7 +44,7 @@ def plotbarATE(filtered_data, data, output_path, colunas_selecionadas):
     ax.set_xlabel('Channel')
     ax.set_ylabel('Quantidade de Falhas')
     plt.tight_layout()
-    os.makedirs(config.output_path, exist_ok=True)
+    os.makedirs(output_path, exist_ok=True)
     plt.savefig(os.path.join(output_path, 'falhas_por_channel.png'))
     plt.show()
     plt.close()
