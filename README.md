@@ -1,75 +1,79 @@
-# BEZ - Gráfico de Falhas 
+# **BEZ - GraphFail**
 
+## **Introdução**
 
-# Documentação do Software de Processamento de CSV e Geração de Gráficos
+BEZ - GraphFail é um software desenvolvido para análise de testes de estresse e envelhecimento em cabeças de carregador. O programa processa os logs gerados pela máquina de testes e exibe gráficos para facilitar a interpretação dos resultados. A interface inicial apresenta um menu onde o operador pode selecionar entre três testes distintos, cada um com sua própria lógica de funcionamento.
 
-## Visão Geral
+## **Tecnologias Utilizadas**
 
-Este software foi desenvolvido para processar arquivos CSV e gerar gráficos com base nos dados de diferentes modelos de testes. Ele utiliza a biblioteca Tkinter para a interface gráfica, Pandas para manipulação de dados, e Matplotlib para visualização gráfica.
+### O projeto utiliza as seguintes bibliotecas do Python:
 
-## Requisitos
+- **Tkinter**: Interface gráfica para a seleção de testes e parâmetros.
+- **Pandas**: Manipulação e processamento dos logs de teste.
+- **Matplotlib**: Geração de gráficos para visualização dos resultados.
+- **Datetime**: Gerenciamento de datas e horários para filtragem de dados.
+- **OS**: Interação com arquivos do sistema para carregamento dos logs.
 
-* Python 3.x
+## **Estrutura e Funcionalidades**
 
-## Bibliotecas necessárias:
+### **Menu Inicial**
 
-* tkinter
+Ao iniciar o programa, o operador acessa um menu onde pode escolher entre três testes de estresse e envelhecimento:
 
-* pandas
+1. **Teste ATE**
+    - Garante que dispositivos eletrônicos funcionem corretamente e sejam seguros.
+    - Possui componentes de medição, estímulo e comutação controlados por computador.
+    - Testa dispositivos em diferentes níveis, fornecendo dados para análise da funcionalidade.
+    - No software, é possível selecionar entre três modelos de carregador e aplicar um filtro de horário.
+2. **Teste Hipot**
+    - Também conhecido como teste de resistência dielétrica, avalia a integridade do isolamento elétrico do dispositivo.
+    - Submete o equipamento a alta tensão para verificar se o isolamento suporta a tensão especificada sem falhas.
+    - Utilizado em uma ampla variedade de dispositivos, desde equipamentos de baixa tensão até alta tensão.
+    - No software, os logs desse teste são carregados e analisados automaticamente.
+3. **Teste Burn-In**
+    - Descobre defeitos iniciais aplicando cargas de temperatura e voltagem a semicondutores.
+    - Utiliza placas de burn-in para segurar os semicondutores durante o teste.
+    - Exposição prolongada a condições extremas para identificar falhas precoces.
+    - No software, os logs do teste são lidos e os dados são apresentados em gráficos para análise.
 
-* matplotlib
+## **Geração de Gráficos**
 
-* datetime
+O programa permite visualizar os dados através de diferentes tipos de gráficos:
 
-* os 
+- **Gráficos de Barras** para comparação entre diferentes testes.
+- **Histogramas** para análise da distribuição dos dados.
 
-## Funcionalidades Principais
+## **Estrutura do Projeto**
+```
+BEZ_GraphFail/
 
-### Seleção de Arquivo CSV: 
-O usuário pode selecionar um arquivo CSV contendo os dados.
+│── config.py # Configurações do programa
 
-### Escolha do Modelo de Teste: 
-Três modelos diferentes são suportados (Unicorn, Napple, Roma). Cada modelo tem um conjunto específico de colunas a serem analisadas.
+│── main.py # Ponto de entrada da aplicação
 
-### Filtragem por Intervalo de Tempo: 
-O usuário pode definir um intervalo de tempo para filtrar os dados.
+│── plottingGraph.py # Geração de gráficos a partir dos logs
 
-### Geração de Gráficos: 
-O software gera gráficos de barras e de linha para análise dos dados processados.
+│── processData.py # Processamento e análise dos logs de teste
 
-### Exportação de Resultados: 
-Os gráficos são salvos na pasta especificada pelo usuário.
+│── ui.py # Interface gráfica e menu de seleção de testes
+```
+## **Instalação e Execução**
 
-## Estrutura do Código
+1. **Instale o Python 3.x**
 
-### 1. Processamento do Arquivo CSV
+```- Certifique-se de que o Python está instalado no seu sistema.```
+2. **Instale as bibliotecas necessárias**
 
-Esta função lê o arquivo CSV selecionado e executa a normalização dos dados, incluindo a renomeação 
-de colunas conforme o modelo escolhido.
+```pip install pandas matplotlib tkinter```
 
-**O processamento é realizado pela função process_csv(), que:**
-* Verifica se os arquivos necessários foram fornecidos.
-* Carrega os dados conforme o modelo selecionado.
-* Renomeia as colunas conforme as necessidades de cada modelo.
-* Converte a coluna de tempo para o formato correto.
-* Aplica filtros, caso solicitado pelo usuário.
+3. **Execute a aplicação**
 
+```python main.py```
 
-### 2. Geração de Gráficos
+## **Como Usar**
 
-Esta função processa os dados filtrados e gera gráficos para visualização de falhas.
-
-**O gráfico realiza as determinadas funções:**
-* Identifica falhas nos testes com base nos limites máximo e mínimo.
-* Agrupa os dados por "Channel" e exibe a quantidade de falhas por teste.
-* Salva o gráfico na pasta de destino.
-
-### 3. Interface Gráfica (Tkinter)
-
-Cria uma interface gráfica para facilitar a seleção de arquivos e configurações de processamento.
- 
-**A interface gráfica possui:**
-* Campos para seleção do arquivo CSV e da pasta de destino.
-* Botães para navegação no sistema de arquivos.
-* Opções de filtragem de dados por intervalo de tempo.
-* Botão para iniciar o processamento do CSV.
+1. Abra a aplicação e selecione um dos testes disponíveis no menu inicial.
+2. No caso do Teste ATE, selecione o modelo de carregador e, se necessário, aplique o filtro de horário.
+3. Aguarde o processamento dos logs.
+4. Visualize os gráficos gerados para análise.
+5. Caso necessário, exporte os gráficos para documentação.
